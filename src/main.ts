@@ -9,6 +9,8 @@ async function bootstrap() {
   const PORT = process.env.PORT;
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
 
+  app.enableCors({ origin: ["http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:5173/*", "http://127.0.0.1:5173/*"] });
+
   app.getHttpAdapter().getInstance().addHook('onRequest', (request, reply, done) => {
     reply.setHeader = function (key, value) {
       return this.raw.setHeader(key, value)
